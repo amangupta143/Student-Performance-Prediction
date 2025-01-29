@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Student performance prediction form - Enter student data to receive AI-powered academic performance predictions">
+    <title>Student Performance Predictor - Make Predictions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Advanced CSS custom properties for theming */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f1c40f;
+            --light-bg: #f8f9fa;
+            --dark-bg: #2c3e50;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--light-bg);
+        }
+
+        /* Enhanced Navigation */
+        .navbar {
+            padding: 1rem 0;
+            transition: all var(--transition-normal);
+            background: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-color);
+            transition: all var(--transition-normal);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Enhanced Form Styling */
+        .prediction-form {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+            transition: all var(--transition-normal);
+        }
+
+        .form-section {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius-md);
+            margin-bottom: 1.5rem;
+            transition: all var(--transition-normal);
+        }
+
+        .form-section:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-section-title {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius-md);
+            padding: 0.75rem;
+            transition: var(--transition-normal);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        /* Enhanced Result Section */
+        .result-section {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+            text-align: center;
+            transition: all var(--transition-normal);
+        }
+
+        .prediction-score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin: 1rem 0;
+        }
+
+        /* Enhanced Footer */
+        .footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-section {
+            margin-bottom: 2rem;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            transition: all var(--transition-normal);
+            color: white;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius-md);
+            transition: all var(--transition-normal);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-equal {
+            min-width: 200px;
+            min-height: 50px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .prediction-form {
+                padding: 1rem;
+            }
+
+            .form-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class="fas fa-chart-line me-2"></i>
+                Student Performance Predictor
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link active" href="/predict" aria-current="page">Make Prediction</a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Form Header -->
+                <div class="text-center mb-4">
+                    <h1 class="display-4">Student Performance Prediction</h1>
+                    <p class="lead text-muted">Enter student information to receive AI-powered performance predictions</p>
+                </div>
+
+                <!-- Prediction Form -->
+                <form id="predictionForm" action="/predict" method="POST" class="prediction-form needs-validation" novalidate>
+                    <!-- Demographic Information Section -->
+                    <div class="form-section">
+                        <h2 class="form-section-title h4">
+                            <i class="fas fa-user me-2"></i>Demographic Information
+                        </h2>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="gender" class="form-label">Gender
+                                    <i class="fas fa-question-circle help-tooltip" 
+                                       data-bs-toggle="tooltip" 
+                                       title="Select the student's gender"></i>
+                                </label>
+                                <select class="form-select" id="gender" name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a gender</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ethnicity" class="form-label">Race/Ethnicity
+                                    <i class="fas fa-question-circle help-tooltip" 
+                                       data-bs-toggle="tooltip" 
+                                       title="Select the student's racial/ethnic group"></i>
+                                </label>
+                                <select class="form-select" id="ethnicity" name="ethnicity" required>
+                                    <option value="">Select Race/Ethnicity</option>
+                                    <option value="group A">Group A</option>
+                                    <option value="group B">Group B</option>
+                                    <option value="group C">Group C</option>
+                                    <option value="group D">Group D</option>
+                                    <option value="group E">Group E</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a race/ethnicity group</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Educational Background Section -->
+                    <div class="form-section">
+                        <h2 class="form-section-title h4">
+                            <i class="fas fa-graduation-cap me-2"></i>Educational Background
+                        </h2>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="parental_level_of_education" class="form-label">Parental Education Level
+                                    <i class="fas fa-question-circle help-tooltip" 
+                                       data-bs-toggle="tooltip" 
+                                       title="Select the highest level of education completed by either parent"></i>
+                                </label>
+                                <select class="form-select" id="parental_level_of_education" name="parental_level_of_education" required>
+                                    <option value="">Select Education Level</option>
+                                    <option value="bachelor's degree">Bachelor's Degree</option>
+                                    <option value="some college">Some College</option>
+                                    <option value="master's degree">Master's Degree</option>
+                                    <option value="associate's degree">Associate's Degree</option>
+                                    <option value="high school">High School</option>
+                                    <option value="some high school">Some High School</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a parental education level</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Support Section -->
+                    <div class="form-section">
+                        <h2 class="form-section-title h4">
+                            <i class="fas fa-hands-helping me-2"></i>Academic Support
+                        </h2>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="lunch" class="form-label">Lunch Type
+                                    <i class="fas fa-question-circle help-tooltip" 
+                                       data-bs-toggle="tooltip" 
+                                       title="Select the student's lunch program type"></i>
+                                </label>
+                                <select class="form-select" id="lunch" name="lunch" required>
+                                    <option value="">Select Lunch Type</option>
+                                    <option value="standard">Standard</option>
+                                    <option value="free/reduced">Free/Reduced</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a lunch type</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="test_preparation_course" class="form-label">Test Preparation
+                                    <i class="fas fa-question-circle help-tooltip" 
+                                       data-bs-toggle="tooltip" 
+                                       title="Indicate if the student completed a test preparation course"></i>
+                                </label>
+                                <select class="form-select" id="test_preparation_course" name="test_preparation_course" required>
+                                    <option value="">Select Option</option>
+                                    <option value="none">None</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a test preparation option</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Scores Section -->
+                    <div class="form-section">
+                        <h2 class="form-section-title h4">
+                            <i class="fas fa-chart-bar me-2"></i>Academic Scores
+                        </h2>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="writing_score" class="form-label">Writing Score
+                                    <i class="fas fa-question-circle help-tooltip" 
+                                       data-bs-toggle="tooltip" 
+                                       title="Enter the student's writing score (0-100)"></i>
+                                </label>
+                                <input type="number" class="form-control" id="writing_score" name="writing_score" 
+                                       min="0" max="100" required>
+                                <div class="score-range">Score range: 0-100</div>
+                                <div class="invalid-feedback">Please enter a valid writing score (0-100)</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="reading_score" class="form-label">Reading Score
+                                    <i class="fas fa-question-circle help-tooltip" 
+                                       data-bs-toggle="tooltip" 
+                                       title="Enter the student's reading score (0-100)"></i>
+                                </label>
+                                <input type="number" class="form-control" id="reading_score" name="reading_score" 
+                                       min="0" max="100" required>
+                                <div class="score-range">Score range: 0-100</div>
+                                <div class="invalid-feedback">Please enter a valid reading score (0-100)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-calculator me-2"></i>Calculate Prediction
+                        </button>
+                    </div>
+                </form>
+
+                 <!-- Results Section -->
+                 {% if results is not none %}
+                 <div class="result-section">
+                     <h2 class="h3 mb-4">Prediction Results</h2>
+                     <div class="prediction-score">{{ results }}</div>
+                     <p class="mt-3 text-muted">This prediction is based on the provided student data and our AI model's analysis.</p>
+                     <div class="mt-4">
+                        <button class="btn btn-secondary btn-equal">
+                            <i class="fas fa-print me-2"></i>Print Results
+                        </button>
+                        <a href="/predict" class="btn btn-primary btn-equal ms-2">
+                            <i class="fas fa-redo me-2"></i>Make Another Prediction
+                        </a>
+                    </div>
+                 </div>
+                 {% endif %}
+             </div>
+         </div>
+     </main>
+ 
+     <!-- Footer -->
+     <footer class="footer">
+         <div class="container">
+             <div class="row">
+                 <div class="col-lg-4 mb-4">
+                     <div class="footer-section">
+                         <h5 class="footer-title">About Us</h5>
+                         <p>Empowering educators with AI-driven insights to improve student performance and educational outcomes.</p>
+                         <div class="social-links mt-3">
+                             <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                             <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                             <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-lg-4 mb-4">
+                     <div class="footer-section">
+                         <h5 class="footer-title">Quick Links</h5>
+                         <ul class="list-unstyled">
+                             <li><a href="/#features">Features</a></li>
+                             <li><a href="/#process">How It Works</a></li>
+                             <li><a href="/#stats">Statistics</a></li>
+                         </ul>
+                     </div>
+                 </div>
+                 <div class="col-lg-4 mb-4">
+                     <div class="footer-section">
+                         <h5 class="footer-title">Contact Us</h5>
+                         <p>Have questions? We're here to help!</p>
+                         <a href="mailto:support@example.com" class="btn btn-outline-light mt-2">Get in Touch</a>
+                     </div>
+                 </div>
+             </div>
+             <hr class="mt-4 mb-4 border-light">
+             <div class="row">
+                 <div class="col-md-6 text-center text-md-start">
+                     <p class="mb-0">&copy; 2025 Student Performance Predictor. All rights reserved.</p>
+                 </div>
+                 <div class="col-md-6 text-center text-md-end">
+                     <ul class="list-inline mb-0">
+                         <li class="list-inline-item"><a href="/privacy-policy">Privacy Policy</a></li>
+                         <li class="list-inline-item"><a href="/terms-of-service">Terms of Service</a></li>
+                     </ul>
+                 </div>
+             </div>
+         </div>
+     </footer>
+ 
+     <!-- Scripts -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+     <script>
+         // Initialize tooltips
+         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+             return new bootstrap.Tooltip(tooltipTriggerEl)
+         })
+ 
+         // Form validation
+         document.getElementById('predictionForm').addEventListener('submit', function(event) {
+             if (!this.checkValidity()) {
+                 event.preventDefault()
+                 event.stopPropagation()
+             }
+             this.classList.add('was-validated')
+         })
+     </script>
+ </body>
+ </html>
