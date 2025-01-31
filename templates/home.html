@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Advanced CSS custom properties for theming */
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #3498db;
@@ -36,18 +35,20 @@
             background-color: var(--light-bg);
         }
 
-        /* Enhanced Navigation */
         .navbar {
             padding: 1rem 0;
-            transition: all var(--transition-normal);
             background: var(--primary-color);
             box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .nav-link {
             position: relative;
             padding: 0.5rem 1rem;
             transition: color var(--transition-fast);
+            font-weight: 500;
         }
 
         .nav-link::after {
@@ -66,10 +67,9 @@
             width: 100%;
         }
 
-        /* Enhanced Form Styling */
         .prediction-form {
             background: white;
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-md);
             margin-top: 2rem;
@@ -82,18 +82,22 @@
             border-radius: var(--border-radius-md);
             margin-bottom: 1.5rem;
             transition: all var(--transition-normal);
+            border: 1px solid rgba(0,0,0,0.1);
         }
 
         .form-section:hover {
             transform: translateY(-3px);
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-md);
         }
 
         .form-section-title {
             color: var(--primary-color);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
             border-bottom: 2px solid var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .form-control, .form-select {
@@ -101,6 +105,7 @@
             border-radius: var(--border-radius-md);
             padding: 0.75rem;
             transition: var(--transition-normal);
+            font-size: 1rem;
         }
 
         .form-control:focus, .form-select:focus {
@@ -108,10 +113,22 @@
             box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
         }
 
-        /* Enhanced Result Section */
+        .score-range {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .help-tooltip {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-left: 0.25rem;
+            cursor: help;
+        }
+
         .result-section {
             background: white;
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-md);
             margin-top: 2rem;
@@ -120,13 +137,38 @@
         }
 
         .prediction-score {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: bold;
             color: var(--secondary-color);
-            margin: 1rem 0;
+            margin: 1.5rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* Enhanced Footer */
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius-md);
+            transition: all var(--transition-normal);
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background-color: #2980b9;
+        }
+
+        .btn-equal {
+            min-width: 200px;
+            min-height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 0.5rem;
+        }
+
         .footer {
             background: var(--dark-bg);
             color: white;
@@ -134,15 +176,12 @@
             margin-top: 4rem;
         }
 
-        .footer-section {
-            margin-bottom: 2rem;
-        }
-
         .footer-title {
             font-size: 1.2rem;
             margin-bottom: 1.5rem;
             position: relative;
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            font-weight: 600;
         }
 
         .footer-title::after {
@@ -163,7 +202,7 @@
             height: 40px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            margin-right: 0.5rem;
+            margin-right: 0.75rem;
             transition: all var(--transition-normal);
             color: white;
             text-decoration: none;
@@ -174,43 +213,115 @@
             transform: translateY(-3px);
         }
 
-        .btn-primary {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius-md);
-            transition: all var(--transition-normal);
+        .invalid-feedback {
+            font-size: 0.875rem;
+            color: var(--accent-color);
+            margin-top: 0.25rem;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-equal {
-            min-width: 200px;
-            min-height: 50px;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
             .prediction-form {
-                padding: 1rem;
+                padding: 1.5rem;
             }
 
             .form-section {
                 padding: 1rem;
             }
+
+            .btn-equal {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+        }
+
+        /* Result Card */
+        .result-card {
+    padding: 2.5rem;
+    border-radius: var(--border-radius-lg);
+    text-align: center;
+    color: white;
+    transition: all var(--transition-normal);
+}
+
+.result-card.excellent {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.result-card.good {
+    background: linear-gradient(135deg, #2196f3, #0d6efd);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.result-card.average {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+}
+
+.result-card.improve {
+    background: linear-gradient(135deg, #dc3545, #fd4a4a);
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.result-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.result-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.prediction-score {
+    font-size: 4rem;
+    font-weight: bold;
+    margin: 1rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.score-label {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+}
+
+.result-description {
+    opacity: 0.9;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.result-card .btn-light {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    backdrop-filter: blur(5px);
+    transition: all var(--transition-normal);
+}
+
+.result-card .btn-light:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+        @media print {
+            .navbar, .footer, .btn {
+                display: none;
+            }
+
+            .result-section {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Skip to main content link for accessibility -->
-    <a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+    <a href="#main-content" class="visually-hidden-focusable">Skip to main content</a>
 
-    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
@@ -224,38 +335,34 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href="/" aria-current="page">Home</a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link active" href="/predict" aria-current="page">Make Prediction</a>
-                    </li> -->
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main id="main-content" class="container my-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <!-- Form Header -->
                 <div class="text-center mb-4">
-                    <h1 class="display-4">Student Performance Prediction</h1>
+                    <h1 class="display-4 mb-3">Student Performance Prediction</h1>
                     <p class="lead text-muted">Enter student information to receive AI-powered performance predictions</p>
                 </div>
 
-                <!-- Prediction Form -->
-                <form id="predictionForm" action="/predict" method="POST" class="prediction-form needs-validation" novalidate>
-                    <!-- Demographic Information Section -->
+                <form id="predictionForm" action="/predict#results-display" method="POST" class="prediction-form needs-validation" novalidate>
                     <div class="form-section">
                         <h2 class="form-section-title h4">
-                            <i class="fas fa-user me-2"></i>Demographic Information
+                            <i class="fas fa-user"></i>
+                            Demographic Information
                         </h2>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="gender" class="form-label">Gender
+                                <label for="gender" class="form-label">
+                                    Gender
                                     <i class="fas fa-question-circle help-tooltip" 
                                        data-bs-toggle="tooltip" 
+                                       data-bs-placement="top"
                                        title="Select the student's gender"></i>
                                 </label>
                                 <select class="form-select" id="gender" name="gender" required>
@@ -266,9 +373,11 @@
                                 <div class="invalid-feedback">Please select a gender</div>
                             </div>
                             <div class="col-md-6">
-                                <label for="ethnicity" class="form-label">Race/Ethnicity
+                                <label for="ethnicity" class="form-label">
+                                    Race/Ethnicity
                                     <i class="fas fa-question-circle help-tooltip" 
                                        data-bs-toggle="tooltip" 
+                                       data-bs-placement="top"
                                        title="Select the student's racial/ethnic group"></i>
                                 </label>
                                 <select class="form-select" id="ethnicity" name="ethnicity" required>
@@ -287,13 +396,16 @@
                     <!-- Educational Background Section -->
                     <div class="form-section">
                         <h2 class="form-section-title h4">
-                            <i class="fas fa-graduation-cap me-2"></i>Educational Background
+                            <i class="fas fa-graduation-cap"></i>
+                            Educational Background
                         </h2>
                         <div class="row g-3">
                             <div class="col-12">
-                                <label for="parental_level_of_education" class="form-label">Parental Education Level
+                                <label for="parental_level_of_education" class="form-label">
+                                    Parental Education Level
                                     <i class="fas fa-question-circle help-tooltip" 
-                                       data-bs-toggle="tooltip" 
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top" 
                                        title="Select the highest level of education completed by either parent"></i>
                                 </label>
                                 <select class="form-select" id="parental_level_of_education" name="parental_level_of_education" required>
@@ -313,13 +425,16 @@
                     <!-- Academic Support Section -->
                     <div class="form-section">
                         <h2 class="form-section-title h4">
-                            <i class="fas fa-hands-helping me-2"></i>Academic Support
+                            <i class="fas fa-hands-helping"></i>
+                            Academic Support
                         </h2>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="lunch" class="form-label">Lunch Type
+                                <label for="lunch" class="form-label">
+                                    Lunch Type
                                     <i class="fas fa-question-circle help-tooltip" 
-                                       data-bs-toggle="tooltip" 
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top" 
                                        title="Select the student's lunch program type"></i>
                                 </label>
                                 <select class="form-select" id="lunch" name="lunch" required>
@@ -330,9 +445,11 @@
                                 <div class="invalid-feedback">Please select a lunch type</div>
                             </div>
                             <div class="col-md-6">
-                                <label for="test_preparation_course" class="form-label">Test Preparation
+                                <label for="test_preparation_course" class="form-label">
+                                    Test Preparation
                                     <i class="fas fa-question-circle help-tooltip" 
-                                       data-bs-toggle="tooltip" 
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top" 
                                        title="Indicate if the student completed a test preparation course"></i>
                                 </label>
                                 <select class="form-select" id="test_preparation_course" name="test_preparation_course" required>
@@ -348,126 +465,186 @@
                     <!-- Academic Scores Section -->
                     <div class="form-section">
                         <h2 class="form-section-title h4">
-                            <i class="fas fa-chart-bar me-2"></i>Academic Scores
+                            <i class="fas fa-chart-bar"></i>
+                            Academic Scores
                         </h2>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="writing_score" class="form-label">Writing Score
+                                <label for="writing_score" class="form-label">
+                                    Writing Score
                                     <i class="fas fa-question-circle help-tooltip" 
-                                       data-bs-toggle="tooltip" 
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top" 
                                        title="Enter the student's writing score (0-100)"></i>
                                 </label>
                                 <input type="number" class="form-control" id="writing_score" name="writing_score" 
-                                       min="0" max="100" required>
+                                       min="0" max="100" required
+                                       pattern="\d*"
+                                       inputmode="numeric">
                                 <div class="score-range">Score range: 0-100</div>
                                 <div class="invalid-feedback">Please enter a valid writing score (0-100)</div>
                             </div>
                             <div class="col-md-6">
-                                <label for="reading_score" class="form-label">Reading Score
+                                <label for="reading_score" class="form-label">
+                                    Reading Score
                                     <i class="fas fa-question-circle help-tooltip" 
-                                       data-bs-toggle="tooltip" 
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top" 
                                        title="Enter the student's reading score (0-100)"></i>
                                 </label>
                                 <input type="number" class="form-control" id="reading_score" name="reading_score" 
-                                       min="0" max="100" required>
+                                       min="0" max="100" required
+                                       pattern="\d*"
+                                       inputmode="numeric">
                                 <div class="score-range">Score range: 0-100</div>
                                 <div class="invalid-feedback">Please enter a valid reading score (0-100)</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Submit Button -->
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4" id="results-display">
                         <button type="submit" class="btn btn-primary btn-lg">
                             <i class="fas fa-calculator me-2"></i>Calculate Prediction
                         </button>
                     </div>
                 </form>
 
-                 <!-- Results Section -->
-                 {% if results is not none %}
-                 <div class="result-section">
-                     <h2 class="h3 mb-4">Prediction Results</h2>
-                     <div class="prediction-score">{{ results }}</div>
-                     <p class="mt-3 text-muted">This prediction is based on the provided student data and our AI model's analysis.</p>
-                     <div class="mt-4">
-                        <button class="btn btn-secondary btn-equal">
-                            <i class="fas fa-print me-2"></i>Print Results
-                        </button>
-                        <a href="/predict" class="btn btn-primary btn-equal ms-2">
-                            <i class="fas fa-redo me-2"></i>Make Another Prediction
-                        </a>
+                <!-- Result Section -->
+                {% if results is not none %}
+<div class="result-section" id="results">
+    {% set score = results|float %}
+    {% if score >= 75 %}
+        {% set theme = 'excellent' %}
+        {% set icon = 'trophy' %}
+        {% set message = 'Excellent Performance!' %}
+    {% elif score >= 60 %}
+        {% set theme = 'good' %}
+        {% set icon = 'star' %}
+        {% set message = 'Good Performance!' %}
+    {% elif score >= 40 %}
+        {% set theme = 'average' %}
+        {% set icon = 'chart-line' %}
+        {% set message = 'Average Performance' %}
+    {% else %}
+        {% set theme = 'improve' %}
+        {% set icon = 'arrows-rotate' %}
+        {% set message = 'Needs Improvement' %}
+    {% endif %}
+    
+    <div class="result-card {{ theme }}">
+        <div class="result-icon">
+            <i class="fas fa-{{ icon }}"></i>
+        </div>
+        <h2 class="result-title">{{ message }}</h2>
+        <div class="prediction-score text-light">{{ results }}</div>
+        <div class="score-label">Predicted Score</div>
+        <p class="result-description">This prediction is based on the provided student data and our AI model's analysis.</p>
+        <div class="mt-4">
+            <button class="btn btn-light btn-equal" onclick="window.print()">
+                <i class="fas fa-print"></i>
+                Print Results
+            </button>
+            <a href="/predict" class="btn btn-light btn-equal">
+                <i class="fas fa-redo"></i>
+                Make Another Prediction
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-section">
+                        <h5 class="footer-title">About Us</h5>
+                        <p>Empowering educators with AI-driven insights to improve student performance and educational outcomes.</p>
+                        <div class="social-links mt-3">
+                            <a href="https://www.linkedin.com/in/amangupta143/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://github.com/amangupta143" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
                     </div>
-                 </div>
-                 {% endif %}
-             </div>
-         </div>
-     </main>
- 
-     <!-- Footer -->
-     <footer class="footer">
-         <div class="container">
-             <div class="row">
-                 <div class="col-lg-4 mb-4">
-                     <div class="footer-section">
-                         <h5 class="footer-title">About Us</h5>
-                         <p>Empowering educators with AI-driven insights to improve student performance and educational outcomes.</p>
-                         <div class="social-links mt-3">
-                             <a href="https://www.linkedin.com/in/amangupta143/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                             <a href="https://github.com/amangupta143" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="col-lg-4 mb-4">
-                     <div class="footer-section">
-                         <h5 class="footer-title">Quick Links</h5>
-                         <ul class="list-unstyled">
-                             <li><a href="/#features">Features</a></li>
-                             <li><a href="/#process">How It Works</a></li>
-                             <li><a href="/#stats">Statistics</a></li>
-                         </ul>
-                     </div>
-                 </div>
-                 <div class="col-lg-4 mb-4">
-                     <div class="footer-section">
-                         <h5 class="footer-title">Contact Us</h5>
-                         <p>Have questions? We're here to help!</p>
-                         <a href="mailto:amangupta.main@gmailcom" class="btn btn-outline-light mt-2">Get in Touch</a>
-                     </div>
-                 </div>
-             </div>
-             <hr class="mt-4 mb-4 border-light">
-             <div class="row">
-                 <div class="col-md-6 text-center text-md-start">
-                     <p class="mb-0">&copy; 2025 Student Performance Predictor.</p>
-                 </div>
-                 <div class="col-md-6 text-center text-md-end">
-                     <ul class="list-inline mb-0">
-                         <li class="list-inline-item"><a href="/privacy-policy">Privacy Policy</a></li>
-                         <li class="list-inline-item"><a href="/terms-of-service">Terms of Service</a></li>
-                     </ul>
-                 </div>
-             </div>
-         </div>
-     </footer>
- 
-     <!-- Scripts -->
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-     <script>
-         // Initialize tooltips
-         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-             return new bootstrap.Tooltip(tooltipTriggerEl)
-         })
- 
-         // Form validation
-         document.getElementById('predictionForm').addEventListener('submit', function(event) {
-             if (!this.checkValidity()) {
-                 event.preventDefault()
-                 event.stopPropagation()
-             }
-             this.classList.add('was-validated')
-         })
-     </script>
- </body>
- </html>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-section">
+                        <h5 class="footer-title">Quick Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="/#features" class="text-white text-decoration-none">Features</a></li>
+                            <li><a href="/#process" class="text-white text-decoration-none">How It Works</a></li>
+                            <li><a href="/#stats" class="text-white text-decoration-none">Statistics</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-section">
+                        <h5 class="footer-title">Contact Us</h5>
+                        <p>Have questions? We're here to help!</p>
+                        <a href="mailto:amangupta.main@gmail.com" class="btn btn-outline-light mt-2">Get in Touch</a>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-4 mb-4 border-light">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2025 Student Performance Predictor.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="/privacy-policy" class="text-white text-decoration-none">Privacy Policy</a></li>
+                        <li class="list-inline-item"><a href="/terms-of-service" class="text-white text-decoration-none">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if results section exists and scroll to it
+            const resultsSection = document.getElementById('results-display');
+            if (resultsSection && window.location.hash === '#results-display') {
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl, {
+                    trigger: 'hover focus'
+                });
+            });
+
+            // Form validation
+            var forms = document.querySelectorAll('.needs-validation');
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+
+            // Input validation for scores
+            const scoreInputs = document.querySelectorAll('input[type="number"]');
+            scoreInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    let value = parseInt(this.value);
+                    if (value < 0) this.value = 0;
+                    if (value > 100) this.value = 100;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
