@@ -45,4 +45,4 @@ def terms_of_service():
     return render_template('legal.html', page_type='terms')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0")
