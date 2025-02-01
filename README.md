@@ -5,8 +5,8 @@ An end-to-end machine learning project that predicts student mathematics scores 
 ## 🚀 Quick Links
 - [Live Demo](https://student-performance-cl3b.onrender.com/)
 - [Dataset Source](https://www.kaggle.com/datasets/impapan/student-performance-data-set)
-- [API Documentation](#api-documentation)
-- [Contributing Guidelines](#contributing)
+- [API Documentation](#-api-documentation)
+- [Contributing Guidelines](#-contributing)
 
 ## 💻 User Interface
 
