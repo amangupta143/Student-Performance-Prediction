@@ -1,5 +1,9 @@
 # Student Performance Prediction
 
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Framework-Flask-red.svg)](https://flask.palletsprojects.com/)
+
 An end-to-end machine learning project that predicts student mathematics scores based on demographic and academic factors. Features automated model selection, comprehensive data processing, and an intuitive Flask web interface. Live demo available on Render.
 
 ## 🚀 Quick Links
@@ -60,30 +64,30 @@ The model uses the [Students Performance in Exams](https://www.kaggle.com/datase
 student-performance-prediction/
 ├── app.py                  # Flask application
 ├── requirements.txt        # Project dependencies
-├── setup.py               # Package configuration
-├── artifacts/             # Model artifacts and processed data
-│   ├── data.csv           # Processed dataset
-│   ├── model.pkl          # Trained model
+├── setup.py                # Package configuration
+├── artifacts/              # Model artifacts and processed data
+│   ├── data.csv            # Processed dataset
+│   ├── model.pkl           # Trained model
 │   └── preprocessor.pkl    # Data transformation pipeline
 ├── src/
-│   ├── components/        # Core ML pipeline components
+│   ├── components/         # Core ML pipeline components
 │   │   ├── data_ingestion.py
 │   │   ├── data_transformation.py
 │   │   └── model_trainer.py
-│   ├── pipeline/          # Prediction and training pipelines
+│   ├── pipeline/           # Prediction and training pipelines
 │   │   ├── predict_pipeline.py
 │   │   └── train_pipeline.py
-│   ├── exception.py       # Custom exception handling
-│   ├── logger.py          # Logging configuration
-│   └── utils.py           # Utility functions
-├── templates/             # HTML templates
+│   ├── exception.py        # Custom exception handling
+│   ├── logger.py           # Logging configuration
+│   └── utils.py            # Utility functions
+├── templates/              # HTML templates
 │   ├── home.html
 │   ├── index.html
 │   └── legal.html
-├── notebook/              # Jupyter notebooks
+├── notebook/               # Jupyter notebooks
 │   ├── 1. EDA STUDENT PERFORMANCE.ipynb
 │   └── 2. MODEL TRAINING.ipynb
-└── .ebextensions/         # Elastic Beanstalk configuration
+└── .ebextensions/          # Elastic Beanstalk configuration
     └── python.config
 ```
 
@@ -216,13 +220,12 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 
 ## 📫 Contact & Support
 
-- **Author**: Aman Gupta
-- **Email**: [amangupta.main@gmail.com](mailto:amangupta.main@gmail.com)
-- **Issues**: [GitHub Issues](https://github.com/amangupta143/student-performance-prediction/issues)
+**Aman Gupta**  
+📧 [amangupta.main@gmail.com](mailto:amangupta.main@gmail.com)  
+🐛 [Issue Tracker](https://github.com/amangupta143/student-performance-prediction/issues)
 
 ## 🙏 Acknowledgments
 
 - Kaggle for providing the dataset
 - Render for hosting services
-- Contributors and maintainers of scikit-learn, CatBoost, and Flask
 - Open source community for various tools and libraries used
