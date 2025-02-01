@@ -1,8 +1,14 @@
 # Student Performance Prediction
 
-A machine learning project that predicts students' mathematics scores based on various demographic and academic factors. The project implements an end-to-end ML pipeline with data ingestion, transformation, model training, and a Flask web interface for making predictions.
+An end-to-end machine learning project that predicts student mathematics scores based on demographic and academic factors. Features automated model selection, comprehensive data processing, and an intuitive Flask web interface. Live demo available on Render.
 
-## User Interface
+## 🚀 Quick Links
+- [Live Demo](https://student-performance-cl3b.onrender.com/)
+- [Dataset Source](https://www.kaggle.com/datasets/impapan/student-performance-data-set)
+- [API Documentation](#api-documentation)
+- [Contributing Guidelines](#contributing)
+
+## 💻 User Interface
 
 ### Landing Page
 ![Landing Page](https://github.com/user-attachments/assets/a721be6e-a621-4475-a0ca-41a707b65b8f)
@@ -16,78 +22,107 @@ The prediction interface collects student information through an intuitive form 
 - Academic Support (Lunch Type, Test Preparation)
 - Academic Scores (Writing and Reading scores)
 
-## Features
+## 🌟 Features
 
-- Predicts math scores based on:
-  - Gender
-  - Race/Ethnicity
-  - Parental Level of Education
-  - Lunch Type
-  - Test Preparation Course
-  - Reading Score
-  - Writing Score
-- Multiple ML models comparison (Random Forest, XGBoost, CatBoost, etc.)
-- Automated pipeline for data preprocessing and model training
-- Web interface for easy predictions
-- Comprehensive error handling and logging
+### Core Functionality
+- Mathematics score prediction (0-100 range) using 7 key features
+- Automated model selection from an ensemble of algorithms
+- Comprehensive data preprocessing pipeline
+- Real-time prediction via web interface
 
-## Project Structure
+### Technical Highlights
+- Flask-based web application with form validation
+- Automated hyperparameter tuning
+- Extensive error handling and logging
+- Privacy policy and terms of service implementation
+- Responsive, modern UI design
+- Model performance monitoring
+
+## 📊 Dataset Overview
+
+The model uses the [Students Performance in Exams](https://www.kaggle.com/datasets/impapan/student-performance-data-set) dataset:
+
+| Feature | Type | Description | Example Values |
+|---------|------|-------------|----------------|
+| `gender` | Categorical | Student's gender | male, female |
+| `race_ethnicity` | Categorical | Ethnic group identifier | group A - E |
+| `parental_level_of_education` | Categorical | Highest parental education | bachelor's degree, master's degree |
+| `lunch` | Categorical | School lunch program type | standard, free/reduced |
+| `test_preparation_course` | Categorical | Test prep completion status | completed, none |
+| `reading_score` | Numerical | Reading exam score | 0-100 |
+| `writing_score` | Numerical | Writing exam score | 0-100 |
+
+**Target Variable**: `math_score` (Numerical, 0-100 range)
+
+## 🏗 Project Structure
 
 ```
-└── student-performance-prediction/
-    ├── app.py                  # Flask application
-    ├── requirements.txt        # Project dependencies
-    ├── setup.py               # Package configuration
-    ├── src/
-    │   ├── components/        # Core ML pipeline components
-    │   │   ├── data_ingestion.py
-    │   │   ├── data_transformation.py
-    │   │   └── model_trainer.py
-    │   ├── pipeline/          # Prediction and training pipelines
-    │   └── utils.py           # Utility functions
-    ├── templates/             # HTML templates
-    └── notebook/              # Jupyter notebooks for EDA and model training
+student-performance-prediction/
+├── app.py                  # Flask application
+├── requirements.txt        # Project dependencies
+├── setup.py               # Package configuration
+├── artifacts/             # Model artifacts and processed data
+│   ├── data.csv           # Processed dataset
+│   ├── model.pkl          # Trained model
+│   └── preprocessor.pkl    # Data transformation pipeline
+├── src/
+│   ├── components/        # Core ML pipeline components
+│   │   ├── data_ingestion.py
+│   │   ├── data_transformation.py
+│   │   └── model_trainer.py
+│   ├── pipeline/          # Prediction and training pipelines
+│   │   ├── predict_pipeline.py
+│   │   └── train_pipeline.py
+│   ├── exception.py       # Custom exception handling
+│   ├── logger.py          # Logging configuration
+│   └── utils.py           # Utility functions
+├── templates/             # HTML templates
+│   ├── home.html
+│   ├── index.html
+│   └── legal.html
+├── notebook/              # Jupyter notebooks
+│   ├── 1. EDA STUDENT PERFORMANCE.ipynb
+│   └── 2. MODEL TRAINING.ipynb
+└── .ebextensions/         # Elastic Beanstalk configuration
+    └── python.config
 ```
 
-## Installation
+## ⚙️ Installation
 
-1. Clone the repository:
+1. **Clone Repository**
 ```bash
 git clone https://github.com/amangupta143/student-performance-prediction.git
 cd student-performance-prediction
 ```
 
-2. Create and activate a virtual environment:
+2. **Setup Environment**
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Linux/MacOS
+# OR
+venv\Scripts\activate     # Windows
 ```
 
-3. Install dependencies:
+3. **Install Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-## Usage
+## 🔧 Usage
 
 ### Training Pipeline
 
-To train the model with new data:
-
 ```python
-from src.components.data_ingestion import DataIngestion
-from src.components.data_transformation import DataTransformation
-from src.components.model_trainer import ModelTrainer
+from src.pipeline.train_pipeline import TrainPipeline
+from src.pipeline.predict_pipeline import PredictPipeline
 
-# Initialize and run the pipeline
-data_ingestion = DataIngestion()
-train_data, test_data = data_ingestion.initiate_data_ingestion()
+# Training
+train_pipeline = TrainPipeline()
+model_metrics = train_pipeline.run_pipeline()
 
-data_transformation = DataTransformation()
-train_arr, test_arr, _ = data_transformation.initiate_data_transformation(train_data, test_data)
-
-model_trainer = ModelTrainer()
-r2_score = model_trainer.initiate_model_trainer(train_arr, test_arr)
+# Prediction
+predict_pipeline = PredictPipeline()
+prediction = predict_pipeline.predict(input_data)
 ```
 
 ### Web Interface
@@ -97,55 +132,97 @@ r2_score = model_trainer.initiate_model_trainer(train_arr, test_arr)
 python app.py
 ```
 
-2. Open a web browser and navigate to `http://localhost:5000`
+2. Open `http://localhost:5000` in your browser
+3. Fill the prediction form with student information
 
-3. Enter student information in the form to get predictions
+## 🤖 Model Architecture
 
-## Model Performance
+### Data Processing Pipeline
+1. **Data Ingestion**:
+   - Automated data loading and validation
+   - Train-test split (80/20)
+   - Data integrity checks
 
-The project evaluates multiple regression models:
+2. **Data Transformation**:
+   - Numerical features: Median imputation + Standard scaling
+   - Categorical features: One-hot encoding
+   - Feature engineering and validation
+
+### Model Selection
+The system evaluates multiple regression models:
 - Random Forest Regressor
-- Decision Tree Regressor
-- Gradient Boosting Regressor
-- Linear Regression
 - XGBoost Regressor
 - CatBoost Regressor
+- Gradient Boosting Regressor
+- Linear Regression
+- Decision Tree Regressor
 - AdaBoost Regressor
 
-The best performing model is automatically selected based on R² score during training.
+Selection criteria:
+- Automated hyperparameter tuning via GridSearchCV
+- Model selection based on R² score
+- Typical performance: R² 0.85-0.90
 
-## Development
+## 🔌 API Documentation
 
-### Adding New Features
+### Prediction Endpoint
+```http
+POST /predict
+Content-Type: application/json
 
+{
+    "gender": "male",
+    "race_ethnicity": "group B",
+    "parental_level_of_education": "bachelor's degree",
+    "lunch": "standard",
+    "test_preparation_course": "completed",
+    "reading_score": 75,
+    "writing_score": 82
+}
+```
+
+## 🛠 Development
+
+### Adding Features
 1. Create new components in `src/components/`
-2. Update the pipeline in `src/pipeline/`
-3. Modify `app.py` to expose new features via the web interface
+2. Update pipelines in `src/pipeline/`
+3. Modify `app.py` for web interface changes
+4. Add appropriate tests and documentation
 
 ### Testing
+- Unit tests being implemented
+- Integration tests planned
+- Contributions welcome!
 
-Currently implementing comprehensive testing. Contributions welcome!
+## 👥 Contributing
 
-## Contributing
-
-I welcome contributions to this repository! If you have ideas for improvement, bug fixes, or want to explore different aspects of the model, feel free to create a pull request.
+We welcome contributions! Please follow these steps:
 
 1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+2. Create a feature branch (`git checkout -b feature/enhancement`)
+3. Commit changes (`git commit -am 'Add new feature'`)
+4. Push to branch (`git push origin feature/enhancement`)
+5. Open a Pull Request
 
-## License
+### Development Guidelines
+- Follow PEP 8 style guide
+- Add tests for new features
+- Update documentation
+- Maintain consistent logging patterns
 
-This project is available under the MIT License.
+## 📄 License
 
-## Contact
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-- Author: Aman Gupta
-- Email: amangupta.main@gmail.com
+## 📫 Contact & Support
 
-## Acknowledgments
+- **Author**: Aman Gupta
+- **Email**: [amangupta.main@gmail.com](mailto:amangupta.main@gmail.com)
+- **Issues**: [GitHub Issues](https://github.com/amangupta143/student-performance-prediction/issues)
 
-- Dataset source: <a href="https://www.kaggle.com/datasets/impapan/student-performance-data-set" >Students Performance in Exams (Kaggle)</a>.
-- Special thanks to contributors and maintainers
+## 🙏 Acknowledgments
+
+- Kaggle for providing the dataset
+- Render for hosting services
+- Contributors and maintainers of scikit-learn, CatBoost, and Flask
+- Open source community for various tools and libraries used
